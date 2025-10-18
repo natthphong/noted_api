@@ -1,0 +1,16 @@
+Log:
+  Level: "debug"
+
+Server:
+  Name: "template"
+  Port: "8080"
+Env: LOCAL
+#Env: LOCAL_LAMBDA
+DBConfig:
+  Host: "192.168.1.28"
+  Port: "5432"
+  Username: "postgres"
+  Password: "password"
+  Name: "postgres"
+  MaxOpenConn: 4
+  MaxConnLifeTime: 300
