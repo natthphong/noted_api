@@ -3,7 +3,7 @@ Log:
 
 Server:
   Name: "template"
-  Port: "8080"
+  Port: "9999"
 Env: LOCAL
 #Env: LOCAL_LAMBDA
 DBConfig:

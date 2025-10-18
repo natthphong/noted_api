@@ -3,12 +3,14 @@ package httpserver
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
-	"os"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/natthphong/go-lambda-template/internal/app"
+	mdx "github.com/natthphong/go-lambda-template/internal/middleware"
 	"github.com/natthphong/go-lambda-template/internal/transport"
 )
 
@@ -26,7 +28,7 @@ func StartEcho(ctx context.Context, a *app.App) error {
 		AllowHeaders: []string{"Content-Type", "Authorization"},
 		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodDelete, http.MethodOptions},
 	}))
-	//e.Use(middleware.Logger(a.Logger)) // your zap logger middleware
+	e.Use(mdx.Logger(a.Logger))
 
 	// One universal handler that adapts Echo to our Router
 	e.Any("/*", func(c echo.Context) error {
@@ -70,9 +72,13 @@ func StartEcho(ctx context.Context, a *app.App) error {
 		return c.JSON(status, map[string]any{"ok": true, "data": data, "time": now()})
 	})
 
-	addr := os.Getenv("HTTP_ADDR")
+	addr := a.Cfg.Server.Port
+	if !strings.HasPrefix(addr, ":") {
+		addr = ":" + addr
+	}
 	if addr == "" {
 		addr = ":8080"
 	}
+	fmt.Printf("Listening on %s\n", addr)
 	return e.Start(addr)
 }

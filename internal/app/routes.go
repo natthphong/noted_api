@@ -1,8 +1,8 @@
 package app
 
 import (
-	"github.com/natthphong/go-lambda-template/internal/modules/auth"
-	"github.com/natthphong/go-lambda-template/internal/modules/health"
+	"github.com/natthphong/go-lambda-template/modules/auth"
+	"github.com/natthphong/go-lambda-template/modules/health"
 )
 
 func (a *App) RegisterRoutes() {
